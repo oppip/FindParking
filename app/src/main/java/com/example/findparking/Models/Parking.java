@@ -5,17 +5,15 @@ public class Parking {
     private String name;
     private Coordinates coordinates;
     private int maxParkingSpaces;
-    private boolean isFree;
-    private int hourleFee;
+    private int hourlyFee;
     private int specialNeedsParking; //number of parking spaces suitable for special needs
 
-    public Parking(int parkingId, String name, Coordinates coordinates, int maxParkingSpaces, boolean isFree, int hourleFee, int specialNeedsParking) {
+    public Parking(int parkingId, String name, float latitude, float longitude, int maxParkingSpaces, int hourlyFee, int specialNeedsParking) {
         this.parkingId = parkingId;
         this.name = name;
-        this.coordinates = coordinates;
+        this.coordinates = new Coordinates(latitude, longitude);
         this.maxParkingSpaces = maxParkingSpaces;
-        this.isFree = isFree;
-        this.hourleFee = hourleFee;
+        this.hourlyFee = hourlyFee;
         this.specialNeedsParking = specialNeedsParking;
     }
 
@@ -51,20 +49,12 @@ public class Parking {
         this.maxParkingSpaces = maxParkingSpaces;
     }
 
-    public boolean isFree() {
-        return isFree;
+    public int getHourlyFee() {
+        return hourlyFee;
     }
 
-    public void setFree(boolean free) {
-        isFree = free;
-    }
-
-    public int getHourleFee() {
-        return hourleFee;
-    }
-
-    public void setHourleFee(int hourleFee) {
-        this.hourleFee = hourleFee;
+    public void setHourlyFee(int hourleFee) {
+        this.hourlyFee = hourleFee;
     }
 
     public int getSpecialNeedsParking() {

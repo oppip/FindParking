@@ -1,10 +1,10 @@
 package com.example.findparking.Models;
 
 public class Coordinates {
-    private double latitude;
-    private double longitude;
+    private float latitude;
+    private float longitude;
 
-    public Coordinates(double latitude, double longitude) {
+    public Coordinates(float latitude, float longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }

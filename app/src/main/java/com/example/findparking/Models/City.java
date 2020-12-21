@@ -5,12 +5,14 @@ public class City {
     private String city;
     private String country;
     private Coordinates coordinates;
+    private boolean expanded;
 
-    public City(int cityId, String city, String country, double latitude, double longitude) {
+    public City(int cityId, String city, String country, float latitude, float longitude) {
         this.cityId = cityId;
         this.city = city;
         this.country = country;
         this.coordinates = new Coordinates(latitude, longitude);
+        this.expanded = false;
     }
 
     public String getCity() {
@@ -25,8 +27,23 @@ public class City {
         return coordinates;
     }
 
+    public int getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(int cityId) {
+        this.cityId = cityId;
+    }
+
     @Override
     public String toString() {
         return city + ", " + country;
+    }
+
+    public boolean isExpanded() {
+        return this.expanded;
+    }
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
     }
 }
