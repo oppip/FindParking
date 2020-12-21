@@ -6,9 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.example.findparking.MainActivity;
 import com.example.findparking.Models.City;
 import com.example.findparking.Models.Parking;
 import com.example.findparking.Models.User;
@@ -118,6 +120,60 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return returnlist;
+    }
+
+    public int getUser(String email){
+        String query = "SELECT * FROM " + USER + " WHERE email = '" + email + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        int userID = -1;
+
+        if (cursor.moveToFirst()) {
+            userID = cursor.getInt(0);
+        }
+
+        cursor.close();
+        db.close();
+        return userID;
+    }
+
+    public int getUser(int userID){
+        String query = "SELECT * FROM " + USER + " WHERE user_id = " + userID;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        int user_id = -1;
+
+        if (cursor.moveToFirst()) {
+            user_id = cursor.getInt(0);
+        }
+
+        cursor.close();
+        db.close();
+        return user_id;
+    }
+
+    public User loginCredentials(String Lemail, String Lpassword){
+        User user;
+        String query = "SELECT * FROM " + USER + " WHERE email = '" + Lemail + "' and password = '" + Lpassword + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst() && cursor.isLast()) {
+            int userID = cursor.getInt(0);
+            String name = cursor.getString(1);
+            String birth_date = cursor.getString(2);
+            String email = cursor.getString(3);
+            int phonenumber = cursor.getInt(5);
+
+            user = new User(userID, name, birth_date, email, null, phonenumber);
+        }
+        else
+        {
+            user = null;
+        }
+        cursor.close();
+        db.close();
+        return user;
     }
 
 

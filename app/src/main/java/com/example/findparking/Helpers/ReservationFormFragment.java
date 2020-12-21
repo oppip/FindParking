@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
@@ -45,6 +46,12 @@ public class ReservationFormFragment extends Fragment implements DatePickerDialo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         date = getActivity().findViewById(R.id.date);
         date.setOnClickListener(new View.OnClickListener() {
@@ -74,11 +81,9 @@ public class ReservationFormFragment extends Fragment implements DatePickerDialo
         createReservation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Ok reserved", Toast.LENGTH_SHORT);
+                Toast.makeText(getContext(), "Ok reserved", Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 
     @Override
@@ -87,9 +92,11 @@ public class ReservationFormFragment extends Fragment implements DatePickerDialo
         c.set(Calendar.YEAR, year);
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
+        String currentDateString = DateFormat.getDateInstance(DateFormat.SHORT).format(c.getTime());
+        String[] arr = currentDateString.split("/");
+        String eudate = arr[1] + "/" + arr[0] + "/" + arr[2];
         EditText editText = (EditText) getActivity().findViewById(R.id.date);
-        editText.setText(currentDateString);
+        editText.setText(eudate);
     }
 
     @Override

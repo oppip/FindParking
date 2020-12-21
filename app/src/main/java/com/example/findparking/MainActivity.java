@@ -30,13 +30,26 @@ public class MainActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               /* User adduser = new User(1, "Filip", "03/10/1999", "email.getText().toString()", "password.getText().toString()", 1234567890);
-                DatabaseHelper databaseHelper = new DatabaseHelper(MainActivity.this);
-                boolean success = databaseHelper.addUser(adduser);
-                Toast.makeText(MainActivity.this, Boolean.toString(success), Toast.LENGTH_LONG).show();
-*/
-                Intent intent = new Intent(MainActivity.this, Cities.class);
-                startActivity(intent);
+                String Eemail, Epassword;
+                Eemail = email.getText().toString();
+                Epassword = password.getText().toString();
+                if (!Eemail.isEmpty() && !Epassword.isEmpty()) {
+                    DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+                    User checkUser = db.loginCredentials(Eemail, Epassword);
+                    if (checkUser == null)
+                    {
+                        Toast.makeText(MainActivity.this, "Wrong email or password", Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Intent intent = new Intent(MainActivity.this, Cities.class);
+                        intent.putExtra("User_ID", checkUser.getUserId());
+                        startActivity(intent);
+                    }
+                }
+                else
+                {
+                    Toast.makeText(MainActivity.this, "All fields must be filled", Toast.LENGTH_LONG).show();
+                }
             }
 
         });

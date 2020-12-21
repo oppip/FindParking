@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Cities">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ListCities"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toStartOf="@+id/PickTimeframe"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <fragment
+        android:id="@+id/PickTimeframe"
+        android:name="com.example.findparking.Helpers.ReservationFormFragment"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ListCities"
+        tools:layout="@layout/fragment_spinner"
+        tools:layout_editor_absoluteY="105dp" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toStartOf="@+id/PickTimeframe"
+        app:layout_constraintStart_toEndOf="@+id/ListCities" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

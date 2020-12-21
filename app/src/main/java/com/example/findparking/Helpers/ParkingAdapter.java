@@ -17,6 +17,7 @@ import com.example.findparking.MainActivity;
 import com.example.findparking.Models.Parking;
 import com.example.findparking.R;
 import com.example.findparking.ReservationForm;
+import com.example.findparking.SignUp;
 
 import java.util.List;
 
@@ -42,9 +43,9 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
         holder.reserve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(holder.itemView.getContext(), "Whooaaaa reserve", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(holder.itemView.getContext(), ReservationForm.class);
                 holder.itemView.getContext().startActivity(intent);
+                Toast.makeText(holder.itemView.getContext(), holder.parkingName.getText().toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
