@@ -18,16 +18,21 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.findparking.Cities;
+import com.example.findparking.MainActivity;
 import com.example.findparking.R;
+import com.example.findparking.ReservationForm;
 
 import java.text.DateFormat;
 import java.util.Calendar;
 
 public class ReservationFormFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
+    String time;
     EditText date;
     Spinner spinner;
     Button createReservation;
+    Session session;
 
     private DatePicker view;
     private int year;
@@ -53,6 +58,8 @@ public class ReservationFormFragment extends Fragment implements DatePickerDialo
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        session = new Session(getActivity().getApplicationContext());
+
         date = getActivity().findViewById(R.id.date);
         date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +74,7 @@ public class ReservationFormFragment extends Fragment implements DatePickerDialo
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String time = spinner.getSelectedItem().toString();
+                time = spinner.getSelectedItem().toString();
             }
 
             @Override
@@ -81,7 +88,25 @@ public class ReservationFormFragment extends Fragment implements DatePickerDialo
         createReservation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Ok reserved", Toast.LENGTH_SHORT).show();
+                int checkTime = Integer.parseInt(time.split(":")[0]);
+                String datePicked = date.getText().toString();
+
+                if (datePicked == "") {
+                    Toast.makeText(getContext(), "You need to pick a date and time!", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    session.setTime(checkTime);
+                    session.setDate(datePicked);
+                    if (getActivity() instanceof ReservationForm) {
+                        getActivity().finish();
+                    }
+                    else
+                    {
+                        ((Cities)getActivity()).notifyAdapter();
+                    }
+                }
+
             }
         });
     }

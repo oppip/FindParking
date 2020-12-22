@@ -10,13 +10,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.findparking.Helpers.DatabaseHelper;
+import com.example.findparking.Helpers.Session;
 import com.example.findparking.Models.User;
 
 public class MainActivity extends AppCompatActivity {
 
     Button login, signUp;
     EditText email, password;
-
+    private Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +27,17 @@ public class MainActivity extends AppCompatActivity {
         email = findViewById(R.id.username);
         password = findViewById(R.id.password);
         signUp = findViewById(R.id.signUp);
+        session = new Session(getApplicationContext());
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String Eemail, Epassword;
+
+                Intent intent = new Intent(MainActivity.this, Cities.class);
+                startActivity(intent);
+                session.deleteAll();
+
+                /*String Eemail, Epassword;
                 Eemail = email.getText().toString();
                 Epassword = password.getText().toString();
                 if (!Eemail.isEmpty() && !Epassword.isEmpty()) {
@@ -42,14 +49,14 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else {
                         Intent intent = new Intent(MainActivity.this, Cities.class);
-                        intent.putExtra("User_ID", checkUser.getUserId());
+                        session.setUserID(checkUser.getUserId());
                         startActivity(intent);
                     }
                 }
                 else
                 {
                     Toast.makeText(MainActivity.this, "All fields must be filled", Toast.LENGTH_LONG).show();
-                }
+                }*/
             }
 
         });

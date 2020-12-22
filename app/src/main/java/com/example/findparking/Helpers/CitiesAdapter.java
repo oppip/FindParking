@@ -1,5 +1,7 @@
 package com.example.findparking.Helpers;
 
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -8,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatDrawableManager;
@@ -18,12 +21,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.findparking.Models.City;
 import com.example.findparking.Models.Parking;
 import com.example.findparking.R;
+import com.example.findparking.ReservationForm;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.CityVH> {
     List<City> cities;
+    Session session;
+
     public CitiesAdapter(List<City> cities) {
         this.cities = cities;
     }
@@ -71,13 +77,33 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.CityVH> {
             constraintLayout = itemview.findViewById(R.id.constraintLayout);
             imageView = itemview.findViewById(R.id.cityImage);
             expandLayout = itemview.findViewById(R.id.relativeLayout);
+            session = new Session(itemview.getContext().getApplicationContext());
 
             expandLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    City city = cities.get(getAdapterPosition());
-                    city.setExpanded(!city.isExpanded());
-                    notifyItemChanged(getAdapterPosition());
+                    int isTimePicked = session.getTime();
+                    String isDatePicked = session.getDate();
+                    if (isTimePicked != -1 && isDatePicked != "")
+                    {
+                        City city = cities.get(getAdapterPosition());
+                        city.setExpanded(!city.isExpanded());
+                        notifyItemChanged(getAdapterPosition());
+                    }
+                    else
+                    {
+                        int orientation =  itemview.getContext().getResources().getConfiguration().orientation;
+                        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                            Toast.makeText(itemview.getContext(), "Please choose a date from here^", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(itemview.getContext(), "Please pick date", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(itemview.getContext(), ReservationForm.class);
+                            itemview.getContext().startActivity(intent);
+                        }
+                    }
+
+                    session.setCityPicked(cities.get(getAdapterPosition()).isExpanded() ? cities.get(getAdapterPosition()).getCityId() : -1);
+
                 }
             });
         }

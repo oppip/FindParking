@@ -9,9 +9,11 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.findparking.Helpers.CitiesAdapter;
 import com.example.findparking.Helpers.DatabaseHelper;
+import com.example.findparking.Helpers.Session;
 import com.example.findparking.Models.City;
 
 import java.text.DateFormat;
@@ -22,11 +24,19 @@ public class Cities extends AppCompatActivity implements DatePickerDialog.OnDate
 
     RecyclerView recyclerView;
     List<City> cities;
+    private Session session;
+    CitiesAdapter cityAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cities);
+        session = new Session(getApplicationContext());
+        int user_id = session.getUserID();
+        if(user_id == -1)
+        {
+            Toast.makeText(this, "You are not logged in", Toast.LENGTH_SHORT).show();
+        }
         recyclerView = findViewById(R.id.ListCities);
 
         initData();
@@ -39,9 +49,14 @@ public class Cities extends AppCompatActivity implements DatePickerDialog.OnDate
     }
 
     private void initRecyclerView() {
-        CitiesAdapter cityAdapter = new CitiesAdapter(cities);
+        cityAdapter = new CitiesAdapter(cities);
         recyclerView.setAdapter(cityAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+    }
+
+    public void notifyAdapter()
+    {
+        this.cityAdapter.notifyDataSetChanged();
     }
 
     @Override
