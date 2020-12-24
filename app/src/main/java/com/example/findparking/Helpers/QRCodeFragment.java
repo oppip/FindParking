@@ -61,7 +61,7 @@ public class QRCodeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        textToEncode = getArguments().getString("Reservation");
+        textToEncode = getActivity().getIntent().getExtras().getString("QRCodeText");
         return inflater.inflate(R.layout.fragment_q_r_code, container, false);
     }
 

@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, Cities.class);
                 startActivity(intent);
                 session.deleteAll();
-              //  session.setUserID(1);
+                session.setUserID(3);
 
                 /*String Eemail, Epassword;
                 Eemail = email.getText().toString();

@@ -75,6 +75,8 @@ public class Cities extends AppCompatActivity implements DatePickerDialog.OnDate
     @Override
     protected void onResume() {
         super.onResume();
-        notifyAdapter();
+        if (!session.getDate().isEmpty()) {
+            notifyAdapter();
+        }
     }
 }

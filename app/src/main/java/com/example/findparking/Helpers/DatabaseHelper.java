@@ -220,6 +220,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public String getCityName(int city_id) {
+        String query = "SELECT * FROM " + CITY + " WHERE city_id = " + String.valueOf(city_id);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        String name;
+        if (cursor.moveToFirst()) {
+            name = cursor.getString(1);
+        }
+        else
+        {
+            name = "Some Error";
+        }
+        cursor.close();
+        db.close();
+        return name;
+
+    }
+
     public List<Parking> getAllParkingsForCity(int city_id) {
         List<Parking> returnlist = new ArrayList<>();
         String query = "SELECT * FROM " + PARKING + " WHERE city_id = " + String.valueOf(city_id);
@@ -267,5 +285,134 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return returnValue;
+    }
+
+    public int NumberOfReservations(int user_id) {
+        String query = "SELECT * FROM " + RESERVATION + " WHERE "+ USER_ID+" = " + String.valueOf(user_id);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        int returnValue = cursor.getCount();
+
+        /*if (cursor.moveToFirst()) {
+                int parkingID = cursor.getInt(0);
+                String name = cursor.getString(1);
+                int parkingSpaces = cursor.getInt(2);
+                float latitude = cursor.getFloat(3);
+                float longitude = cursor.getFloat(4);
+                int specialNeeds = cursor.getInt(5);
+                int fee = cursor.getInt(6);
+
+                returnlist = new Parking(parkingID, name, parkingSpaces, latitude, longitude, fee, specialNeeds);
+        }*/
+        cursor.close();
+        db.close();
+        return returnValue;
+    }
+
+    public boolean addReservation(Reservation newreservation, int user_id, int parking_id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(DATE_FOR_RESERVATION, newreservation.getReservationDate());
+        cv.put(TIME_FOR_RESERVATION, newreservation.getTime());
+        cv.put(QRCODE, newreservation.toString(user_id, parking_id));
+        cv.put(USER_ID, user_id);
+        cv.put(PARKING_ID, parking_id);
+        long insert = db.insert(RESERVATION, null, cv);
+
+        return insert>0;
+    }
+
+    public String fixTimeFrame(int hour)
+    {
+        String result = "";
+        if (hour<10)
+        {
+            result += "0" + hour;
+        }
+        else
+        {
+            result += hour;
+        }
+        result += ":00-";
+        ++hour;
+        if (hour<10)
+        {
+            result += "0" + hour;
+        }
+        else
+        {
+            result += hour;
+        }
+        result += ":00";
+        return result;
+    }
+
+    public List<Reservation> getReservations(int user_id) {
+        List<Reservation> returnlist = new ArrayList<>();
+        String query = "SELECT * FROM " + RESERVATION + " WHERE "+ USER_ID+" = " + String.valueOf(user_id);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            do {
+                int reservationID = cursor.getInt(0);
+                String date = cursor.getString(1);
+                int time = cursor.getInt(2);
+
+                Reservation getReservation = new Reservation(reservationID, date, time);
+                returnlist.add(getReservation);
+
+            }while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return returnlist;
+    }
+
+    public int ParkingForReservation(int reservation_id) {
+        String query = "SELECT * FROM " + RESERVATION + " WHERE "+ RESERVATION_ID+" = " + String.valueOf(reservation_id);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        int returnValue = cursor.getInt(5);
+
+        /*if (cursor.moveToFirst()) {
+                int parkingID = cursor.getInt(0);
+                String name = cursor.getString(1);
+                int parkingSpaces = cursor.getInt(2);
+                float latitude = cursor.getFloat(3);
+                float longitude = cursor.getFloat(4);
+                int specialNeeds = cursor.getInt(5);
+                int fee = cursor.getInt(6);
+
+                returnlist = new Parking(parkingID, name, parkingSpaces, latitude, longitude, fee, specialNeeds);
+        }*/
+        cursor.close();
+        db.close();
+        return returnValue;
+    }
+
+    public Reservation getReservation(int user_id, int parking_id, int time, String date) {
+        String query = "SELECT * FROM " + RESERVATION + " WHERE "+ USER_ID+" = " + String.valueOf(user_id) +
+                " and " + PARKING_ID + " = " + String.valueOf(parking_id) + " and " + TIME_FOR_RESERVATION +" = " + String.valueOf(time) +
+                " and " + DATE_FOR_RESERVATION + " = '" + date + "'"  ;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        Reservation getReservation = null;
+        if (cursor.moveToFirst()) {
+                int reservationID = cursor.getInt(0);
+                String dateD = cursor.getString(1);
+                int timeD = cursor.getInt(2);
+
+                getReservation = new Reservation(reservationID, dateD, timeD);
+
+            }
+        cursor.close();
+        db.close();
+        return getReservation;
+    }
+
+
+    public void deleteReservation(int reservationID) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(RESERVATION, RESERVATION_ID + "=" + String.valueOf(reservationID), null);
     }
 }

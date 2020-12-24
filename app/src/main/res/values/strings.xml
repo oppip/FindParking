@@ -19,6 +19,13 @@
     <string name="dateOfReservation">Date of reservation</string>
     <string name="From">From:</string>
     <string name="To">To:</string>
+    <string name="confirmationText">Your have successfully made a reservation!</string>
+    <string name="thanks">Thank you for using Find Parking</string>
+    <string name="greatDay">Have a great day</string>
+    <string name="ReservationMade">Reservation made for: </string>
+    <string name="dummyName">Skopje Parking, Skopje</string>
+    <string name="Navigate">Navigate</string>
+    <string name="Delete">Delete</string>
 
     <array name="timeSlots">
         <item>00:00-01:00</item>
