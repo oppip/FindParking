@@ -23,9 +23,13 @@ import java.util.List;
 
 public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingVH> {
 
+    private Session session;
     List<Parking> parkings;
-    public ParkingAdapter(List<Parking> parking) {
+    int city_id;
+    DatabaseHelper db;
+    public ParkingAdapter(List<Parking> parking, int city_id) {
         this.parkings = parking;
+        this.city_id = city_id;
     }
 
     @NonNull
@@ -37,9 +41,13 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
 
     @Override
     public void onBindViewHolder(@NonNull ParkingVH holder, int position) {
+        db = new DatabaseHelper(holder.itemView.getContext().getApplicationContext());
+        String date = session.getDate();
+        int time = session.getTime();
+        int numberOfReservedSpots = db.ReservedSpacesFor(date, time, city_id, parkings.get(position).getParkingId());
         Parking parking = parkings.get(position);
         holder.parkingName.setText(parking.getName());
-        holder.parkingSpaces.setText(String.valueOf(parking.getMaxParkingSpaces()));
+        holder.parkingSpaces.setText(String.valueOf(parking.getMaxParkingSpaces() - numberOfReservedSpots));
         holder.reserve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +72,7 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
             parkingName = itemview.findViewById(R.id.ParkingName);
             parkingSpaces = itemview.findViewById(R.id.ParkingSpaces);
             reserve = itemview.findViewById(R.id.reserveButton);
+            session = new Session(itemview.getContext().getApplicationContext());
         }
     }
 }

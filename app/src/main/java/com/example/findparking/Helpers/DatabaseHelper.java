@@ -10,9 +10,11 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.example.findparking.Cities;
 import com.example.findparking.MainActivity;
 import com.example.findparking.Models.City;
 import com.example.findparking.Models.Parking;
+import com.example.findparking.Models.Reservation;
 import com.example.findparking.Models.User;
 
 import java.util.ArrayList;
@@ -42,6 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String RESERVATION_ID = "reservation_id";
     public static final String DATE_FOR_RESERVATION = "date_for_reservation";
     public static final String QRCODE = "QRcode";
+    public static final String TIME_FOR_RESERVATION = "time_for_reservation";
 
 
     public DatabaseHelper(@Nullable Context context) {
@@ -68,7 +71,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createParkingTable);
         //RESERVATION TABLE
         String createReservationTable = "CREATE TABLE `" + RESERVATION + "` ( `" + RESERVATION_ID + "` INTEGER PRIMARY KEY AUTOINCREMENT," +
-                " `" + DATE_FOR_RESERVATION + "` DATETIME NOT NULL," + "`" + QRCODE + "` TEXT NOT NULL," +
+                " `" + DATE_FOR_RESERVATION + "` DATE NOT NULL, `" + TIME_FOR_RESERVATION + "` INT," + "`" + QRCODE + "` TEXT NOT NULL," +
                 " `" + USER_ID + "` INT NOT NULL, `" + PARKING_ID + "` INT NOT NULL," +
                 "FOREIGN KEY(`" + USER_ID + "`) REFERENCES " + USER + "(`"+ USER_ID + "`), " +
                 "FOREIGN KEY(`" + PARKING_ID + "`) REFERENCES " + PARKING + "(`" + PARKING_ID + "`))";
@@ -78,9 +81,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void create(){
         /*SQLiteDatabase dbwrite = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(NAME, "Krushevo");
-        dbwrite.update(CITY, cv, "city_id = ?", new String[]{"2"});*/
+        List<Reservation> returnlist = new ArrayList<>();
+        returnlist.add(new Reservation(1, "30/12/20", 0));
+        returnlist.add(new Reservation(1, "30/12/20", 0));
 
+        for (int i =0; i<returnlist.size(); i++) {
+            cv.put(DATE_FOR_RESERVATION, returnlist.get(i).getReservationDate());
+            cv.put(TIME_FOR_RESERVATION, returnlist.get(i).getTime());
+            cv.put(QRCODE, returnlist.get(i).toString(1, 1));
+            cv.put(USER_ID, 1);
+            cv.put(PARKING_ID, 1);
+            dbwrite.insert(RESERVATION, null, cv);
+        }*/
     }
 
     public boolean addUser(User newuser){
@@ -224,7 +236,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 int specialNeeds = cursor.getInt(5);
                 int fee = cursor.getInt(6);
 
-                Parking getParking = new Parking(parkingID, name, latitude, longitude,parkingSpaces, fee, specialNeeds);
+                Parking getParking = new Parking(parkingID, name,parkingSpaces , latitude, longitude, fee, specialNeeds);
                 returnlist.add(getParking);
 
             }while (cursor.moveToNext());
@@ -232,5 +244,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return returnlist;
+    }
+
+    public int ReservedSpacesFor(String date, int time, int city_id, int parking_id) {
+        String query = "SELECT * FROM " + RESERVATION + " WHERE "+ DATE_FOR_RESERVATION+" = '" + date +
+                "' and " + PARKING_ID + " = " + String.valueOf(parking_id);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        int returnValue = cursor.getCount();
+
+        /*if (cursor.moveToFirst()) {
+                int parkingID = cursor.getInt(0);
+                String name = cursor.getString(1);
+                int parkingSpaces = cursor.getInt(2);
+                float latitude = cursor.getFloat(3);
+                float longitude = cursor.getFloat(4);
+                int specialNeeds = cursor.getInt(5);
+                int fee = cursor.getInt(6);
+
+                returnlist = new Parking(parkingID, name, parkingSpaces, latitude, longitude, fee, specialNeeds);
+        }*/
+        cursor.close();
+        db.close();
+        return returnValue;
     }
 }

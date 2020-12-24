@@ -8,7 +8,7 @@ public class Parking {
     private int hourlyFee;
     private int specialNeedsParking; //number of parking spaces suitable for special needs
 
-    public Parking(int parkingId, String name, float latitude, float longitude, int maxParkingSpaces, int hourlyFee, int specialNeedsParking) {
+    public Parking(int parkingId, String name, int maxParkingSpaces, float latitude, float longitude, int specialNeedsParking, int hourlyFee) {
         this.parkingId = parkingId;
         this.name = name;
         this.coordinates = new Coordinates(latitude, longitude);

@@ -71,4 +71,10 @@ public class Cities extends AppCompatActivity implements DatePickerDialog.OnDate
         EditText editText = (EditText) findViewById(R.id.date);
         editText.setText(eudate);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        notifyAdapter();
+    }
 }

@@ -33,9 +33,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+                db.create();
                 Intent intent = new Intent(MainActivity.this, Cities.class);
                 startActivity(intent);
                 session.deleteAll();
+              //  session.setUserID(1);
 
                 /*String Eemail, Epassword;
                 Eemail = email.getText().toString();

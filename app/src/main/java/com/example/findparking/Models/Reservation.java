@@ -1,23 +1,25 @@
 package com.example.findparking.Models;
 
-import java.util.Date;
-
 public class Reservation {
     private int reservationId;
-    private Date reservationDate;
+    private String reservationDate;
     private int time;
 
-    public Reservation(int reservationId, Date reservationDate, int time) {
+    public Reservation(int reservationId, String reservationDate, int time) {
         this.reservationId = reservationId;
         this.reservationDate = reservationDate;
         this.time = time;
+    }
+
+    public String toString(int user, int parking) {
+        return "" + reservationId + "%^&" + reservationDate + "%^&" + time + "%^&" + user + "%^&" + parking;
     }
 
     public int getReservationId() {
         return reservationId;
     }
 
-    public Date getReservationDate() {
+    public String getReservationDate() {
         return reservationDate;
     }
 

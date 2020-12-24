@@ -91,7 +91,7 @@ public class ReservationFormFragment extends Fragment implements DatePickerDialo
                 int checkTime = Integer.parseInt(time.split(":")[0]);
                 String datePicked = date.getText().toString();
 
-                if (datePicked == "") {
+                if (datePicked.isEmpty()) {
                     Toast.makeText(getContext(), "You need to pick a date and time!", Toast.LENGTH_SHORT).show();
                 }
                 else

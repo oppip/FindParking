@@ -47,13 +47,19 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.CityVH> {
         holder.cityName.setText(city.getCity());
         DatabaseHelper db = new DatabaseHelper(holder.itemView.getContext());
         List<Parking> parking = db.getAllParkingsForCity(city.getCityId());
-        ParkingAdapter parkingAdapter = new ParkingAdapter(parking);
+        ParkingAdapter parkingAdapter = new ParkingAdapter(parking,city.getCityId());
         holder.parkings.setAdapter(parkingAdapter);
         holder.parkings.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
 
         String cityName = city.getCity().toLowerCase();
         int resID = holder.itemView.getContext().getResources().getIdentifier(cityName , "drawable", holder.itemView.getContext().getPackageName());
         holder.imageView.setImageResource(resID);
+
+        if (city.getCityId() == session.getCityPicked())
+        {
+            city.setExpanded(true);
+            session.setCityPicked(-1);
+        }
 
         boolean isExpanded = city.isExpanded();
         holder.constraintLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
@@ -92,6 +98,7 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.CityVH> {
                     }
                     else
                     {
+                        session.setCityPicked(cities.get(getAdapterPosition()).getCityId());
                         int orientation =  itemview.getContext().getResources().getConfiguration().orientation;
                         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
                             Toast.makeText(itemview.getContext(), "Please choose a date from here^", Toast.LENGTH_SHORT).show();
@@ -101,9 +108,6 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.CityVH> {
                             itemview.getContext().startActivity(intent);
                         }
                     }
-
-                    session.setCityPicked(cities.get(getAdapterPosition()).isExpanded() ? cities.get(getAdapterPosition()).getCityId() : -1);
-
                 }
             });
         }
