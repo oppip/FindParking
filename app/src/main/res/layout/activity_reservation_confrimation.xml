@@ -6,6 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".ReservationConfrimation">
 
+    <include
+        android:id="@+id/include"
+        layout="@layout/my_toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <fragment
         android:id="@+id/ConfirmationFragment"
         android:name="com.example.findparking.Helpers.ReservationConfirmedFragment"
@@ -13,7 +20,7 @@
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include"
         tools:layout="@layout/fragment_reservation_confirmed" />
 
     <fragment

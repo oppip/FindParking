@@ -1,6 +1,7 @@
 package com.example.findparking;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     Button login, signUp;
     EditText email, password;
     private Session session;
-
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,19 +29,23 @@ public class MainActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
         signUp = findViewById(R.id.signUp);
         session = new Session(getApplicationContext());
+        toolbar = findViewById(R.id.include);
+        setSupportActionBar(toolbar);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+                /*DatabaseHelper db = new DatabaseHelper(getApplicationContext());
                 db.create();
                 Intent intent = new Intent(MainActivity.this, Cities.class);
                 startActivity(intent);
                 session.deleteAll();
-                session.setUserID(3);
+                session.setUserID(3);*/
+                session.deleteAll();
 
-                /*String Eemail, Epassword;
+
+                String Eemail, Epassword;
                 Eemail = email.getText().toString();
                 Epassword = password.getText().toString();
                 if (!Eemail.isEmpty() && !Epassword.isEmpty()) {
@@ -59,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 else
                 {
                     Toast.makeText(MainActivity.this, "All fields must be filled", Toast.LENGTH_LONG).show();
-                }*/
+                }
             }
 
         });

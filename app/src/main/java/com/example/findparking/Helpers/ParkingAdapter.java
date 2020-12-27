@@ -56,18 +56,27 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
             public void onClick(View v) {
                 boolean flag = false;
                 List<Reservation> reservations = db.getReservations(session.getUserID());
+                for (int i =0; i<reservations.size(); i++)
+                {
+                    if(db.ParkingForReservation(reservations.get(i).getReservationId()) == parking.getParkingId() && reservations.get(i).getTime() == time && reservations.get(i).getReservationDate().equals(date))
+                    {
+                        flag = true;
+                        Intent intent = new Intent(holder.itemView.getContext(), ReservationConfrimation.class);
+                        intent.putExtra("cityandparkingname", parking.getName() + ", " + db.getCityName(city_id));
+                        intent.putExtra("ReservationDate", date);
+                        intent.putExtra("TimeframeForReservation", db.fixTimeFrame(time));
+                        intent.putExtra("QRCodeText", db.getReservation(session.getUserID(), parking.getParkingId(), time, date).toString(session.getUserID(), parking.getParkingId()));
+                        intent.putExtra("reservationID", db.getReservation(session.getUserID(), parking.getParkingId(), time, date).getReservationId());
+                        intent.putExtra("longitude", parking.getCoordinates().getLongitude());
+                        intent.putExtra("latitude", parking.getCoordinates().getLatitude());
+                        holder.itemView.getContext().startActivity(intent);
+                    }
+                }
                 if(db.NumberOfReservations(session.getUserID()) >= 3)
                 {
                     Toast.makeText(holder.itemView.getContext(), "Only 3 reservations at a time", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    for (int i =0; i<reservations.size(); i++)
-                    {
-                        if(db.ParkingForReservation(reservations.get(i).getReservationId()) == parking.getParkingId() && reservations.get(i).getTime() == time && reservations.get(i).getReservationDate().equals(date))
-                        {
-                            flag = true;
-                        }
-                    }
                     if(!flag) {
                         Reservation add = new Reservation(1, date, time);
                         db.addReservation(add, session.getUserID(), parking.getParkingId());
@@ -77,7 +86,13 @@ public class ParkingAdapter extends RecyclerView.Adapter<ParkingAdapter.ParkingV
                         intent.putExtra("TimeframeForReservation", db.fixTimeFrame(time));
                         intent.putExtra("QRCodeText", db.getReservation(session.getUserID(), parking.getParkingId(), time, date).toString(session.getUserID(), parking.getParkingId()));
                         intent.putExtra("reservationID", db.getReservation(session.getUserID(), parking.getParkingId(), time, date).getReservationId());
+                        intent.putExtra("longitude", parking.getCoordinates().getLongitude());
+                        intent.putExtra("latitude", parking.getCoordinates().getLatitude());
                         holder.itemView.getContext().startActivity(intent);
+                    }
+                    else
+                    {
+                        Toast.makeText(holder.itemView.getContext(), "A reservation has already been made", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

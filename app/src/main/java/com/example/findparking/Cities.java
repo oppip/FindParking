@@ -1,12 +1,18 @@
 package com.example.findparking;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -26,11 +32,16 @@ public class Cities extends AppCompatActivity implements DatePickerDialog.OnDate
     List<City> cities;
     private Session session;
     CitiesAdapter cityAdapter;
+    private androidx.appcompat.widget.Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cities);
+        toolbar = (Toolbar) findViewById(R.id.include);
+        setSupportActionBar(toolbar);
+
+
         session = new Session(getApplicationContext());
         int user_id = session.getUserID();
         if(user_id == -1)
@@ -78,5 +89,22 @@ public class Cities extends AppCompatActivity implements DatePickerDialog.OnDate
         if (!session.getDate().isEmpty()) {
             notifyAdapter();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.buttonMyReservations)
+        {
+            Intent intent = new Intent(this, MyReservations.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

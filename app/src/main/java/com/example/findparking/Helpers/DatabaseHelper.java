@@ -76,6 +76,70 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY(`" + USER_ID + "`) REFERENCES " + USER + "(`"+ USER_ID + "`), " +
                 "FOREIGN KEY(`" + PARKING_ID + "`) REFERENCES " + PARKING + "(`" + PARKING_ID + "`))";
         db.execSQL(createReservationTable);
+        ContentValues cv = new ContentValues();
+        List<City> returnlist = new ArrayList<>();
+        returnlist.add(new City(1,"Skopje", "Macedonia", (float)41.9981002807617, (float)21.4253997802734));
+        returnlist.add(new City(1,"Krushevo", "Macedonia", (float)41.3706016540527, (float)21.2502002716064));
+        returnlist.add(new City(1,"Ohrid", "Macedonia", (float)41.1231002807617, (float)20.8015995025635));
+        returnlist.add(new City(1,"Bitola", "Macedonia", (float)41.0297012329102, (float)21.3292007446289));
+        returnlist.add(new City(1,"Shtip", "Macedonia", (float)41.7463989257813, (float)22.1996994018555));
+        returnlist.add(new City(1,"Kochani", "Macedonia", (float)41.9168014526367, (float)22.4083003997803));
+        returnlist.add(new City(1,"Strumica", "Macedonia", (float)41.437801361084, (float)22.6427001953125));
+        returnlist.add(new City(1,"Veles", "Macedonia", (float)41.7164993286133, (float)21.7723007202148));
+        for (int i =0; i<returnlist.size(); i++) {
+            cv.put(NAME, returnlist.get(i).getCity());
+            cv.put(COUNTRY, returnlist.get(i).getCountry());
+            cv.put(LATITUDE, returnlist.get(i).getCoordinates().getLatitude());
+            cv.put(LONGITUDE, returnlist.get(i).getCoordinates().getLongitude());
+            db.insert(CITY, null, cv);
+        }
+        cv.clear();
+
+        List<Parking> parkingList = new ArrayList<>();
+
+        parkingList.add(new Parking(1, "Skopje Parking", 100, (float)41.9981002807617, (float)21.4253997802734, 5, 0));
+        parkingList.add(new Parking(1, "Krusevo Parking", 100, (float)41.3706016540527, (float)21.2502002716064, 5, 0));
+        parkingList.add(new Parking(1, "Ohrid Parking", 100, (float)41.1231002807617, (float)20.8015995025635, 5, 0));
+        parkingList.add(new Parking(1, "Bitola Parking", 100, (float)41.0297012329102, (float)21.3292007446289, 5, 0));
+        parkingList.add(new Parking(1, "Shtip Parking", 100, (float)41.7463989257813, (float)22.1996994018555, 5, 0));
+        parkingList.add(new Parking(1, "Kochani Parking", 100, (float)41.9168014526367, (float)22.4083003997803, 5, 0));
+        parkingList.add(new Parking(1, "Strumica Parking", 100, (float)41.437801361084, (float)22.6427001953125, 5, 0));
+        parkingList.add(new Parking(1, "Veles Parking", 100, (float)41.7164993286133, (float)21.7723007202148, 5, 0));
+        parkingList.add(new Parking(1, "Skopje Parking", 100, (float)41.9981002807617, (float)21.4253997802734, 5, 0));
+        parkingList.add(new Parking(1, "Krusevo Parking", 100, (float)41.3706016540527, (float)21.2502002716064, 5, 0));
+        parkingList.add(new Parking(1, "Ohrid Parking", 100, (float)41.1231002807617, (float)20.8015995025635, 5, 0));
+        parkingList.add(new Parking(1, "Bitola Parking", 100, (float)41.0297012329102, (float)21.3292007446289, 5, 0));
+        parkingList.add(new Parking(1, "Shtip Parking", 100, (float)41.7463989257813, (float)22.1996994018555, 5, 0));
+        parkingList.add(new Parking(1, "Kochani Parking", 100, (float)41.9168014526367, (float)22.4083003997803, 5, 0));
+        parkingList.add(new Parking(1, "Strumica Parking", 100, (float)41.437801361084, (float)22.6427001953125, 5, 0));
+        parkingList.add(new Parking(1, "Veles Parking", 100, (float)41.7164993286133, (float)21.7723007202148, 5, 0));
+        parkingList.add(new Parking(1, "Skopje Parking", 100, (float)41.9981002807617, (float)21.4253997802734, 5, 0));
+        parkingList.add(new Parking(1, "Krusevo Parking", 100, (float)41.3706016540527, (float)21.2502002716064, 5, 0));
+        parkingList.add(new Parking(1, "Ohrid Parking", 100, (float)41.1231002807617, (float)20.8015995025635, 5, 0));
+        parkingList.add(new Parking(1, "Bitola Parking", 100, (float)41.0297012329102, (float)21.3292007446289, 5, 0));
+        parkingList.add(new Parking(1, "Shtip Parking", 100, (float)41.7463989257813, (float)22.1996994018555, 5, 0));
+        parkingList.add(new Parking(1, "Kochani Parking", 100, (float)41.9168014526367, (float)22.4083003997803, 5, 0));
+        parkingList.add(new Parking(1, "Strumica Parking", 100, (float)41.437801361084, (float)22.6427001953125, 5, 0));
+        parkingList.add(new Parking(1, "Veles Parking", 100, (float)41.7164993286133, (float)21.7723007202148, 5, 0));
+        parkingList.add(new Parking(1, "Skopje Parking", 100, (float)41.9981002807617, (float)21.4253997802734, 5, 0));
+        parkingList.add(new Parking(1, "Krusevo Parking", 100, (float)41.3706016540527, (float)21.2502002716064, 5, 0));
+        parkingList.add(new Parking(1, "Ohrid Parking", 100, (float)41.1231002807617, (float)20.8015995025635, 5, 0));
+        parkingList.add(new Parking(1, "Bitola Parking", 100, (float)41.0297012329102, (float)21.3292007446289, 5, 0));
+        parkingList.add(new Parking(1, "Shtip Parking", 100, (float)41.7463989257813, (float)22.1996994018555, 5, 0));
+        parkingList.add(new Parking(1, "Kochani Parking", 100, (float)41.9168014526367, (float)22.4083003997803, 5, 0));
+        parkingList.add(new Parking(1, "Strumica Parking", 100, (float)41.437801361084, (float)22.6427001953125, 5, 0));
+        parkingList.add(new Parking(1, "Veles Parking", 100, (float)41.7164993286133, (float)21.7723007202148, 5, 0));
+
+        for (int i =0; i<parkingList.size(); i++) {
+            cv.put(NAME, parkingList.get(i).getName() + " " + String.valueOf((i/8)+1));
+            cv.put(PARKING_SPACES, parkingList.get(i).getMaxParkingSpaces());
+            cv.put(LATITUDE, parkingList.get(i).getCoordinates().getLatitude());
+            cv.put(LONGITUDE, parkingList.get(i).getCoordinates().getLongitude());
+            cv.put(SPEACIAL_NEEDS_PARKING, parkingList.get(i).getSpecialNeedsParking());
+            cv.put(HOURLY_FEE, parkingList.get(i).getHourlyFee());
+            cv.put(CITY_ID, (i%8)+1);
+            db.insert(PARKING, null, cv);
+        }
     }
 
     public void create(){
@@ -270,18 +334,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         int returnValue = cursor.getCount();
-
-        /*if (cursor.moveToFirst()) {
-                int parkingID = cursor.getInt(0);
-                String name = cursor.getString(1);
-                int parkingSpaces = cursor.getInt(2);
-                float latitude = cursor.getFloat(3);
-                float longitude = cursor.getFloat(4);
-                int specialNeeds = cursor.getInt(5);
-                int fee = cursor.getInt(6);
-
-                returnlist = new Parking(parkingID, name, parkingSpaces, latitude, longitude, fee, specialNeeds);
-        }*/
         cursor.close();
         db.close();
         return returnValue;
@@ -292,18 +344,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
         int returnValue = cursor.getCount();
-
-        /*if (cursor.moveToFirst()) {
-                int parkingID = cursor.getInt(0);
-                String name = cursor.getString(1);
-                int parkingSpaces = cursor.getInt(2);
-                float latitude = cursor.getFloat(3);
-                float longitude = cursor.getFloat(4);
-                int specialNeeds = cursor.getInt(5);
-                int fee = cursor.getInt(6);
-
-                returnlist = new Parking(parkingID, name, parkingSpaces, latitude, longitude, fee, specialNeeds);
-        }*/
         cursor.close();
         db.close();
         return returnValue;
@@ -372,19 +412,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + RESERVATION + " WHERE "+ RESERVATION_ID+" = " + String.valueOf(reservation_id);
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
         int returnValue = cursor.getInt(5);
 
-        /*if (cursor.moveToFirst()) {
-                int parkingID = cursor.getInt(0);
-                String name = cursor.getString(1);
-                int parkingSpaces = cursor.getInt(2);
-                float latitude = cursor.getFloat(3);
-                float longitude = cursor.getFloat(4);
-                int specialNeeds = cursor.getInt(5);
-                int fee = cursor.getInt(6);
-
-                returnlist = new Parking(parkingID, name, parkingSpaces, latitude, longitude, fee, specialNeeds);
-        }*/
         cursor.close();
         db.close();
         return returnValue;
@@ -414,5 +444,53 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteReservation(int reservationID) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(RESERVATION, RESERVATION_ID + "=" + String.valueOf(reservationID), null);
+    }
+
+    public Parking getParking(int reservation_id) {
+        String query = "SELECT * FROM " + PARKING + " WHERE " + PARKING_ID + " = " + String.valueOf(ParkingForReservation(reservation_id));
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        Parking parking = null;
+        if (cursor.moveToFirst()) {
+            int parkingID = cursor.getInt(0);
+            String name = cursor.getString(1);
+            int parkingSpaces = cursor.getInt(2);
+            float latitude = cursor.getFloat(3);
+            float longitude = cursor.getFloat(4);
+            int specialNeeds = cursor.getInt(5);
+            int fee = cursor.getInt(6);
+
+            parking = new Parking(parkingID, name, parkingSpaces , latitude, longitude, fee, specialNeeds);
+        }
+        cursor.close();
+        db.close();
+        return parking;
+    }
+
+    public City getCityFromParking(int parking_id) {
+        String query = "SELECT * FROM " + PARKING + " WHERE " + PARKING_ID + " = " + String.valueOf(parking_id);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        Parking parking = null;
+        int cityID;
+        City city = null;
+        if (cursor.moveToFirst()) {
+            cityID = cursor.getInt(7);
+            query = "SELECT * FROM " + CITY + " WHERE " + CITY_ID + " = " + String.valueOf(cityID);
+            Cursor cursorCity = db.rawQuery(query, null);
+            if (cursorCity.moveToFirst()) {
+                String name = cursor.getString(1);
+                String country = cursor.getString(2);
+                float latitude = cursor.getFloat(3);
+                float longitude = cursor.getFloat(4);
+
+                city = new City(cityID, name, country, latitude, longitude);
+
+            }
+            cursorCity.close();
+        }
+        cursor.close();
+        db.close();
+        return city;
     }
 }

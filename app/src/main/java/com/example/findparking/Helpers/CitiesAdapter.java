@@ -55,7 +55,7 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.CityVH> {
         int resID = holder.itemView.getContext().getResources().getIdentifier(cityName , "drawable", holder.itemView.getContext().getPackageName());
         holder.imageView.setImageResource(resID);
 
-        if (city.getCityId() == session.getCityPicked())
+        if (city.getCityId() == session.getCityPicked() && !session.getDate().isEmpty())
         {
             city.setExpanded(true);
             session.setCityPicked(-1);

@@ -69,6 +69,10 @@ public class ReservationFormFragment extends Fragment implements DatePickerDialo
             }
         });
 
+        if (!session.getDate().isEmpty())
+        {
+            date.setText(session.getDate());
+        }
         spinner = getActivity().findViewById(R.id.spinner);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

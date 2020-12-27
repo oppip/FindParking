@@ -1,6 +1,7 @@
 package com.example.findparking;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 
 import android.app.DatePickerDialog;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.findparking.Helpers.DatabaseHelper;
 import com.example.findparking.Helpers.DatePickerFragment;
+import com.example.findparking.Helpers.Session;
 import com.example.findparking.Models.User;
 
 import java.text.DateFormat;
@@ -24,11 +26,16 @@ public class SignUp extends AppCompatActivity implements DatePickerDialog.OnDate
 
     EditText date, name, email, password, phoneNumber;
     Button createAccount;
+    Toolbar toolbar;
+    Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        toolbar = findViewById(R.id.include);
+        setSupportActionBar(toolbar);
+        session = new Session(getApplicationContext());
 
         name = findViewById(R.id.name);
         email = findViewById(R.id.username);
@@ -70,8 +77,9 @@ public class SignUp extends AppCompatActivity implements DatePickerDialog.OnDate
                         User addUser = new User(1, Ename, Edate, Eemail, Epassword, Ephonenumber);
                         db.addUser(addUser);
                         int userID = db.getUser(Eemail);
+                        session.deleteAll();
+                        session.setUserID(userID);
                         Intent intent = new Intent(SignUp.this, Cities.class);
-                        intent.putExtra("User_ID", userID);
                         startActivity(intent);
                     }
                 }
